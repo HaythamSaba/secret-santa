@@ -1,14 +1,14 @@
 const GAME_STATUS = {
-  IDLE: "idle", // Welcome screen
-  ACTIVE: "active", // Adding participants
-  LOADING: "loading", // Processing (could be used for animations)
-  DRAWN: "drawn", // Names have been drawn
-  ERROR: "error", // Something went wrong
-  FINISHED: "finished", // Game complete (could reset)
+  IDLE: "idle",
+  ACTIVE: "active",
+  LOADING: "loading",
+  DRAWN: "drawn",
+  ERROR: "error",
+  FINISHED: "finished",
 };
 
 export const initialState = {
-  status: GAME_STATUS.IDLE, // Current game state
+  status: GAME_STATUS.IDLE,
   secretSantaList: [],
   assignments: {},
   viewedBy: [],
@@ -77,7 +77,7 @@ export default function secretSantaReducer(state, action) {
     case "PICK_RANDOM_PERSON":
       return {
         ...state,
-        currentPerson: action.payload, // This should receive the full person object
+        currentPerson: action.payload,
         isIdentityConfirmed: false,
       };
 
@@ -88,19 +88,47 @@ export default function secretSantaReducer(state, action) {
       };
 
     case "MARK_AS_VIEWED":
-      console.log("MARK_AS_VIEWED dispatched with:", action.payload); // Debug
-      console.log("Current viewedBy:", state.viewedBy); // Debug
       return {
         ...state,
         viewedBy: [...state.viewedBy, action.payload],
       };
 
-    case "NEXT_PERSON":
+    case "NEXT_PERSON": {
+      // ✅ FIXED: Calculate next person with FRESH state
+      console.log("NEXT_PERSON - Current viewedBy:", state.viewedBy);
+      console.log("NEXT_PERSON - secretSantaList:", state.secretSantaList);
+
+      // Get people who haven't viewed yet (using fresh state)
+      const notViewed = state.secretSantaList.filter(
+        (p) => !state.viewedBy.includes(p.id)
+      );
+
+      console.log("NEXT_PERSON - notViewed:", notViewed);
+
+      // If everyone has viewed, finish the game
+      if (notViewed.length === 0) {
+        console.log("NEXT_PERSON - Everyone has viewed! Finishing...");
+        return {
+          ...state,
+          status: GAME_STATUS.FINISHED,
+          currentPerson: null,
+          isIdentityConfirmed: false,
+        };
+      }
+
+      // Pick random person from those who haven't viewed
+      const randomIndex = Math.floor(Math.random() * notViewed.length);
+      const randomPerson = notViewed[randomIndex];
+
+      console.log("NEXT_PERSON - Picked:", randomPerson);
+
       return {
         ...state,
-        currentPerson: null,
+        currentPerson: randomPerson,
         isIdentityConfirmed: false,
       };
+    }
+
     case "RESET_ASSIGNMENTS":
       return {
         ...state,

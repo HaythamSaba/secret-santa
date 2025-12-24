@@ -62,6 +62,8 @@ export function SecretSantaProvider({ children }) {
       setTimeout(() => {
         const assignments = drawSecretSanta(state.secretSantaList);
         dispatch({ type: "ASSIGN_SECRET_SANTA", payload: assignments });
+
+        // ✅ Still need to pick the FIRST random person after drawing
         pickRandomPerson();
       }, 1000);
     } catch (error) {
@@ -70,29 +72,21 @@ export function SecretSantaProvider({ children }) {
   };
 
   const pickRandomPerson = () => {
-    console.log("pickRandomPerson called"); // Debug
-    console.log("secretSantaList:", state.secretSantaList); // Debug
-    console.log("viewedBy:", state.viewedBy); // Debug
+    console.log("pickRandomPerson called (initial)");
 
-    // Get people who haven't viewed yet
     const notViewed = state.secretSantaList.filter(
       (p) => !state.viewedBy.includes(p.id)
     );
 
-    console.log("notViewed:", notViewed); // Debug
-
     if (notViewed.length === 0) {
-      console.log("Everyone has viewed! Finishing game..."); // Debug
       dispatch({ type: "FINISH_GAME" });
       return;
     }
 
-    // Pick random person from those who haven't viewed
     const randomIndex = Math.floor(Math.random() * notViewed.length);
     const randomPerson = notViewed[randomIndex];
 
-    console.log("Picked random person:", randomPerson); // Debug
-
+    console.log("Picked first random person:", randomPerson);
     dispatch({ type: "PICK_RANDOM_PERSON", payload: randomPerson });
   };
   const confirmIdentity = () => {
@@ -101,24 +95,17 @@ export function SecretSantaProvider({ children }) {
 
   const markAsViewed = () => {
     if (state.currentPerson) {
-      console.log("Marking as viewed:", state.currentPerson.id); // Add this for debugging
       dispatch({
         type: "MARK_AS_VIEWED",
         payload: state.currentPerson.id,
       });
-    } else {
-      console.log("No current person to mark!"); // Debug
     }
   };
 
   const nextPerson = () => {
-    console.log("nextPerson called, current viewedBy:", state.viewedBy); // Debug
+    console.log("nextPerson called");
+    // Just dispatch - the reducer handles everything now!
     dispatch({ type: "NEXT_PERSON" });
-
-    // Small delay before picking next person
-    setTimeout(() => {
-      pickRandomPerson();
-    }, 300);
   };
 
   const resetAssignments = () => {

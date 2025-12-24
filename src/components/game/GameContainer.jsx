@@ -68,7 +68,7 @@ const GameContainer = () => {
 
         {state.status === "finished" && (
           <div className="max-w-2xl mx-auto w-full text-center">
-            <div className="py-8 sm:py-12 lg:py-16">
+            <div className="py-8">
               <div className="text-6xl sm:text-7xl lg:text-8xl mb-6">🎉</div>
               <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-green-100 mb-4">
                 Game Completed!

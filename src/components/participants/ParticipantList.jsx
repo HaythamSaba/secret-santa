@@ -27,9 +27,9 @@ const ParticipantList = () => {
       <h3 className="font-bold text-lg mb-3 text-accent-400 text-center">
         We have {state.secretSantaList.length} Participants
       </h3>
-      <p className="mb-4 text-accent-100 text-center">
+      {state.secretSantaList.length < 3 && <p className="mb-4 text-accent-100 text-center">
         You must have at least 3 participants to start the game.
-      </p>
+      </p>}
 
       {state.secretSantaList.map((participant) => (
         <div

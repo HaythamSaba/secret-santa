@@ -4,8 +4,9 @@ import Button from "../shared/Button";
 import ParticipantProgress from "./ParticipantProgress";
 
 function AssignmentView() {
-  const [showAssignment, setShowAssignment] = useState(false); // Should be boolean, not string
-  const { state, confirmIdentity, markAsViewed, nextPerson, finishGame } = useSecretSanta();
+  const [showAssignment, setShowAssignment] = useState(false);
+  const { state, confirmIdentity, markAsViewed, nextPerson, finishGame } =
+    useSecretSanta();
 
   if (state.status !== "drawn") return null;
 
@@ -35,7 +36,7 @@ function AssignmentView() {
     );
   }
 
-  const currentPerson = state.currentPerson; // Now this is the full object
+  const currentPerson = state.currentPerson;
   const assignedId = state.assignments[currentPerson.id];
   const assignedPerson = state.secretSantaList.find((p) => p.id === assignedId);
 
@@ -95,10 +96,7 @@ function AssignmentView() {
                 content="👁️ Show My Secret Santa"
                 size="large"
                 onClick={() => {
-                  console.log("Showing assignment for:", currentPerson); // Debug
                   setShowAssignment(true);
-                  markAsViewed(); // This should mark immediately
-                  console.log("After markAsViewed, viewedBy:", state.viewedBy); // Debug
                 }}
               />
             </div>
@@ -128,7 +126,7 @@ function AssignmentView() {
               content="🙈 Hide & Pass to Next Person"
               size="large"
               onClick={() => {
-                console.log("Before nextPerson, viewedBy:", state.viewedBy); // Debug
+                markAsViewed(); // ✅ NOW mark as viewed when hiding
                 setShowAssignment(false);
                 nextPerson();
               }}
