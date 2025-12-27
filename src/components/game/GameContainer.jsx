@@ -15,7 +15,7 @@ const GameContainer = () => {
   return (
     <div className="bg-secondary-700 min-h-screen flex flex-col">
       <Header showNewGameButton={state.status !== "idle"} />
-      <div className="text-center pt-6 sm:pt-8 lg:pt-12">
+      <div className="text-center pt-6 sm:pt-8">
         <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-accent-100 mb-2">
           🎅 Secret Santa Generator
         </h1>

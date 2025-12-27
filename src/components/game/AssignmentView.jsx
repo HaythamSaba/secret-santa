@@ -42,15 +42,9 @@ function AssignmentView() {
 
   if (!state.isIdentityConfirmed) {
     return (
-      <div className="mt-8 p-8 bg-yellow-50 border-3 border-yellow-400 rounded-xl">
+      <div className=" p-8 bg-yellow-50 border-3 border-yellow-400 rounded-xl">
         <div className="text-center mb-6">
           <div className="text-6xl mb-4">👋</div>
-          <h2 className="text-3xl font-bold text-yellow-900 mb-3">
-            Pass the device to:
-          </h2>
-          <p className="text-5xl font-bold text-yellow-700 mb-4">
-            {currentPerson.name}
-          </p>
 
           <div className="bg-red-100 border-2 border-red-400 rounded-lg p-4 mb-6 max-w-md mx-auto">
             <p className="text-sm font-semibold text-red-800 mb-2">
@@ -61,6 +55,12 @@ function AssignmentView() {
               way to go back, so make sure to remember it!
             </p>
           </div>
+          <h2 className="text-3xl font-bold text-yellow-900 mb-3">
+            Pass the device to:
+          </h2>
+          <p className="text-4xl font-bold text-yellow-700 mb-4">
+            {currentPerson.name}
+          </p>
         </div>
 
         <div className="text-center">
